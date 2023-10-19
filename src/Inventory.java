@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 public class Inventory {
@@ -46,6 +47,19 @@ public class Inventory {
         }
         return stock.remove(removeFromIdx.get().intValue());
     }
+
+    public List<ItemInterface> findComponents(ItemDefinition itemDefinition) {
+    List<ItemInterface> components = new ArrayList<>();
+    for (ItemInterface item : stock) {
+        if (item instanceof Item) {
+            // Check if the item can be used as a component
+            if (item.getDefinition().equals(itemDefinition)) {
+                components.add(item);
+            }
+        }
+    }
+    return components;
+}
 
     /**
      * Adds an Item instance to the inventories stock.
@@ -114,6 +128,7 @@ public class Inventory {
         }
         return result;
     }
+    
 
     public int qtyOf(ItemDefinition def) {
         int qty = 0;
@@ -133,4 +148,6 @@ public class Inventory {
         }
         return str;
     }
+
+    
 }

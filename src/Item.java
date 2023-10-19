@@ -1,5 +1,10 @@
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
 public class Item implements ItemInterface {
     private ItemDefinition definition;
+    private List<Item> components;
 
     /**
      * Creates an Item instance with a set definition.
@@ -9,12 +14,23 @@ public class Item implements ItemInterface {
      */
     public Item(ItemDefinition def) {
         definition = def;
+        components = new ArrayList<>();
+    }
+
+    public void addComponent(Item component) {
+        components.add(component);
+    }
+
+    public List<Item> getComponents(){
+        return components;
     }
 
     @Override
     public double getWeight() {
         double weight = definition.getWeight().orElse(0.0);
-        // If the item is made up of other items, we should find the sum of weights
+        if (!components.isEmpty()) {
+            weight += components.stream().mapToDouble(ItemInterface::getWeight).sum();
+        }
         return weight;
     }
 
@@ -35,11 +51,13 @@ public class Item implements ItemInterface {
 
     @Override
     public String getCompositionDescription() {
-        // For craftable items, this method should return a description describing/listing the
-        // other items which make up this item.
-        // When a non-empty String is returned, the uncraft button will appear in the UI.
+         if (!components.isEmpty()) {
+            return "Crafted from: " + components.stream()
+                .map(Item::getName)
+                .collect(Collectors.joining(", "));
+        }
         return "";
-    }
+        }
 
     @Override
     public boolean equals(ItemInterface other) {

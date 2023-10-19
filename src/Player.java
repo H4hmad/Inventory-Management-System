@@ -65,5 +65,4 @@ public class Player implements Observer {
     public void updateStorageView(Inventory storageInventory) {
         storageView = storageInventory;
     }
-    
 }

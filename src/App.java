@@ -1,3 +1,7 @@
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
 import javax.swing.JFrame;
 
 public class App {
@@ -52,10 +56,43 @@ public class App {
     }
 
     void setupCrafting(ItemCraftPage page, Player player) {
-        page.setCraftAction((def) -> System.out.println("Crafting not implemented"));
+        page.setCraftAction((def) -> {
+            boolean canCraft = true;
+            List<Item> components = new ArrayList<>();
+
+        for (String componentName : def.getComponentNames()) {
+            Optional<ItemDefinition> componentDef = ItemDictionary.get().defByName(componentName);
+            if (componentDef.isPresent()) {
+                ItemDefinition componentItemDef = componentDef.get();
+                int qtyInInventory = player.getInventory().qtyOf(componentItemDef);
+                if (qtyInInventory <= 0) {
+                    canCraft = false;
+                    break;
+                }
+                components.add(componentItemDef.create());
+            }
+        }
+
+        if (canCraft) {
+            Item craftedItem = def.create();
+
+            for (Item component : components) {
+                    player.getInventory().removeOne(component.getDefinition());
+            }
+            player.getInventory().addOne(craftedItem);
+        } else {
+            System.out.println("Cannot craft. Missing Crafting Materials.");
+        }
+    });
     }
 
     void setupUncrafting(ProductPage page, Player player) {
-        page.setUncraftAction((item) -> System.out.println("Uncrafting not implemented"));
+        page.setUncraftAction((item) -> {
+                List<Item> components = item.getComponents();
+                for (Item component : components) {
+                    player.getInventory().addOne(component);
+                }
+                player.getInventory().removeOne(item.getDefinition());
+        });
     }
 }
