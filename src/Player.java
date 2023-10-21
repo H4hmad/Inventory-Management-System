@@ -59,10 +59,6 @@ public class Player implements Observer {
 
      @Override
     public void update() {
-        updateStorageView(storageView);
-    }
-
-    public void updateStorageView(Inventory storageInventory) {
-        storageView = storageInventory;
+        setStorageView(storageView);
     }
 }

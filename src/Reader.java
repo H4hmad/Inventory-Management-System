@@ -54,6 +54,7 @@ public class Reader {
             System.exit(0);
         }
 
+        System.out.println(ItemDictionary.get().getDefs().size());
         ArrayList<ItemDefinition> itemDefinitions = ItemDictionary.get().getDefs();
         Storage store = null;
         Player player = null;

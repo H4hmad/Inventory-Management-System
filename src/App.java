@@ -11,6 +11,7 @@ public class App {
     private PageManager manager;
 
     public App(Player p, Storage s) {
+
         player = p;
         storage = s;
 

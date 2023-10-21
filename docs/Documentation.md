@@ -13,7 +13,7 @@ You chose: OBSERVER
 
 4. The observer interface is implemented in the Player class and an update method is also added into the player class which updates the store view for the Player once called. (Line 60 till 67)
 
-5. In the App class, player will be registered as an observer of the storage(subject). (Line 15)
+5. In the App class, player will be registered as an observer of the storage(subject). (Line 15 and 19)
 
 # Task 2
 
