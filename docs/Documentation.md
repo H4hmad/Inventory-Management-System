@@ -21,7 +21,14 @@ Structural pattern - _Composite_ pattern.
 
 ## Itemise changes made (which class files were modified)
 
-1.
+1. BaseItem Class added, with all the required methods implemented.
+2. Crafting and Uncrafting methods implemented in App class.
+3. A list is defined to store the componenets(craftable items) and sub-componenets(base items)
+   this is done to achieve the required functionality (crafting, uncrafting). (Item Class)
+4. Add and Get methods added for the List defined in 3. (Item Class)
+5. Getweight and Getcomposition methods modified to work for craftable items and allow for crafting/uncrafting.
+6. Create method in ItemDefinition Class modified to work for craftable items as well.
+7. Get method added that returns the component names that is required for Crafting.
 
 # Task 3
 
