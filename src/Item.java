@@ -4,7 +4,7 @@ import java.util.stream.Collectors;
 
 public class Item implements ItemInterface {
     private ItemDefinition definition;
-    private List<Item> components;
+    private List<ItemInterface> components;
 
     /**
      * Creates an Item instance with a set definition.
@@ -21,7 +21,7 @@ public class Item implements ItemInterface {
         components.add(component);
     }
 
-    public List<Item> getComponents(){
+    public List<ItemInterface> getComponents(){
         return components;
     }
 
@@ -53,7 +53,7 @@ public class Item implements ItemInterface {
     public String getCompositionDescription() {
          if (!components.isEmpty()) {
             return "Crafted from: " + components.stream()
-                .map(Item::getName)
+                .map(ItemInterface::getName)
                 .collect(Collectors.joining(", "));
         }
         return "";

@@ -51,7 +51,7 @@ public class Inventory {
     public List<ItemInterface> findComponents(ItemDefinition itemDefinition) {
     List<ItemInterface> components = new ArrayList<>();
     for (ItemInterface item : stock) {
-        if (item instanceof Item) {
+        if (item instanceof BaseItem) {
             // Check if the item can be used as a component
             if (item.getDefinition().equals(itemDefinition)) {
                 components.add(item);

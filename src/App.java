@@ -88,11 +88,15 @@ public class App {
 
     void setupUncrafting(ProductPage page, Player player) {
         page.setUncraftAction((item) -> {
-                List<Item> components = item.getComponents();
-                for (Item component : components) {
-                    player.getInventory().addOne(component);
+            List<ItemInterface> components = item.getComponents();
+            for (ItemInterface component : components) {
+                if (component instanceof BaseItem) {
+                    player.getInventory().addOne((BaseItem) component);
+                } else {
+                    player.getInventory().addOne((Item) component);
                 }
-                player.getInventory().removeOne(item.getDefinition());
+            }
+            player.getInventory().removeOne(item.getDefinition());
         });
     }
 }
