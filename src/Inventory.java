@@ -92,15 +92,4 @@ public class Inventory {
         }
         return qty;
     }
-
-    @Override
-    public String toString() {
-        String str = "";
-        for (ItemInterface item : stock) {
-            str += item.toString() + "\n\n";
-        }
-        return str;
-    }
-
-    
 }

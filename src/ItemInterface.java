@@ -27,16 +27,4 @@ public interface ItemInterface {
      * @return
      */
     String getCompositionDescription();
-
-    /**
-     * @param other
-     * @return true if the Item shares the same definition as 'other'
-     */
-    boolean equals(ItemInterface other);
-
-    /**
-     * @param def
-     * @return true if the Items definition matches 'def'
-     */
-    boolean isOf(ItemDefinition def);
 }
