@@ -1,28 +1,27 @@
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
-public class Inventory {
-    private ArrayList<ItemInterface> stock;
-    private SearchStrategy searchStrategy;
+public class Inventory<T extends ItemInterface> {
+    private ArrayList<T> stock;
+    private SearchStrategy<T> searchStrategy;
 
     public Inventory() {
         stock = new ArrayList<>();
         searchStrategy = new AllSearchStrategy();
     }
 
-    public Inventory(ArrayList<ItemInterface> startingStock) {
+    public Inventory(ArrayList<T> startingStock) {
         stock = startingStock;
         searchStrategy = new AllSearchStrategy();
     }
 
-    public void setSearchStrategy(SearchStrategy strategy) {
+    public void setSearchStrategy(SearchStrategy<T> strategy) {
         searchStrategy = strategy;
     }
 
-    public ArrayList<ItemInterface> searchItems(String searchTerm) {
+    public ArrayList<T> searchItems(String searchTerm) {
         String term = searchTerm.toLowerCase();
-        ArrayList<ItemInterface> result = new ArrayList<>(stock);
+        ArrayList<T> result = new ArrayList<>(stock);
 
         return searchStrategy.search(result, term);
     }
@@ -35,7 +34,7 @@ public class Inventory {
      * @return Item instance matching `item` parameter definition
      * @throws ItemNotAvailableException
      */
-    public ItemInterface removeOne(ItemDefinition itemDefinition) throws ItemNotAvailableException {
+    public T removeOne(ItemDefinition itemDefinition) throws ItemNotAvailableException {
         Optional<Integer> removeFromIdx = indexOfItemByName(itemDefinition);
         if (removeFromIdx.isEmpty()) {
             throw new ItemNotAvailableException(itemDefinition);
@@ -44,7 +43,7 @@ public class Inventory {
         return stock.remove((int) removeFromIdx.get());
     }
 
-    public ItemInterface remove(ItemInterface item) throws ItemNotAvailableException {
+    public T remove(T item) throws ItemNotAvailableException {
         // Check if the provided item exists in the players inventory
         Optional<Integer> removeFromIdx = Optional.empty();
         for (int i = 0; i < stock.size(); i++) {
@@ -64,7 +63,7 @@ public class Inventory {
      * Sort is called using the current/existing sort strategy.
      * @param item - actual instance
      */
-    public void addOne(ItemInterface item) {
+    public void addOne(T item) {
         stock.add(item);
     }
 
@@ -75,7 +74,7 @@ public class Inventory {
      */
     private Optional<Integer> indexOfItemByName(ItemDefinition item) {
         for (int i = 0; i < stock.size(); i++) {
-            ItemInterface cur = stock.get(i);
+            T cur = stock.get(i);
             if (cur.getName().equals(item.getName())) {
                 return Optional.of(i);
             }
@@ -85,7 +84,7 @@ public class Inventory {
 
     public int qtyOf(ItemDefinition def) {
         int qty = 0;
-        for (ItemInterface item : stock) {
+        for (T item : stock) {
             if (item.getName().equals(def.getName())) {
                 qty++;
             }

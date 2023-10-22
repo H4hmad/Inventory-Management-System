@@ -1,20 +1,20 @@
-public class Player implements Observer {
+public class Player<T extends ItemInterface> implements Observer {
     private String name;
-    private Inventory inventory;
+    private Inventory<T> inventory;
     private double carryWeightCapacity;
-    private Inventory storageView;
+    private Inventory<T> storageView;
 
-    public Player(String playerName, double carryCapacity, Inventory sInventory) {
+    public Player(String playerName, double carryCapacity, Inventory<T> sInventory) {
         name = playerName;
         carryWeightCapacity = carryCapacity;
         inventory = sInventory;
     }
 
-    public void setStorageView(Inventory storageInventory) {
+    public void setStorageView(Inventory<T> storageInventory) {
         storageView = storageInventory;
     }
 
-    public Inventory getStorageView() {
+    public Inventory<T> getStorageView() {
         return storageView;
     }
 
@@ -22,7 +22,7 @@ public class Player implements Observer {
         return name;
     }
 
-    public Inventory getInventory() {
+    public Inventory<T> getInventory() {
         return inventory;
     }
 
@@ -32,13 +32,13 @@ public class Player implements Observer {
 
     public double getCurrentWeight() {
         double carrying = 0;
-        for (ItemInterface item : getInventory().searchItems("")) {
+        for (T item : getInventory().searchItems("")) {
             carrying += item.getWeight();
         }
         return carrying;
     }
 
-    public void store(ItemInterface item, Storage storage) throws ItemNotAvailableException {
+    public void store(T item, Storage storage) throws ItemNotAvailableException {
         // Do we have the item we are trying to store
         if (!inventory.searchItems("").contains(item)) {
             throw new ItemNotAvailableException(item.getDefinition());
@@ -46,7 +46,7 @@ public class Player implements Observer {
         storage.store(inventory.remove(item));
     }
 
-    public void retrieve(ItemInterface item, Storage storage) throws ItemNotAvailableException, ExceedWeightCapacity {
+    public void retrieve(T item, Storage<T> storage) throws ItemNotAvailableException, ExceedWeightCapacity {
         // Does the Storage have the item we are trying to retrieve
         if (!storageView.searchItems("").contains(item)) {
             throw new ItemNotAvailableException(item.getDefinition());

@@ -1,17 +1,17 @@
 import java.util.ArrayList;
 import java.util.List;
 
-public class Storage {
+public class Storage<T extends ItemInterface> {
     private String storageName;
-    private Inventory items;
+    private Inventory<T> items;
     private List<Observer> observers = new ArrayList<>();
 
-    public Storage(String name, Inventory startingInventory) {
+    public Storage(String name, Inventory<T> startingInventory) {
         storageName = name;
         items = startingInventory;
     }
 
-    public Inventory getInventory() {
+    public Inventory<T> getInventory() {
         return items;
     }
 
@@ -19,13 +19,13 @@ public class Storage {
         return storageName;
     }
     
-    public void store(ItemInterface item) {
+    public void store(T item) {
         items.addOne(item);
         notifyObservers();
     }
 
-    public ItemInterface retrieve(ItemInterface item) throws ItemNotAvailableException {
-        ItemInterface removed = items.remove(item);
+    public T retrieve(T item) throws ItemNotAvailableException {
+        T removed = items.remove(item);
         notifyObservers();
         return removed;
     }

@@ -28,6 +28,7 @@
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
 
@@ -36,6 +37,11 @@ public class Reader {
     private static boolean craftableItemsRead;
     private static boolean storeRead;
     private static boolean playerRead;
+
+    private static final String BASE_ITEMS_SECTION = "base items";
+    private static final String CRAFTABLE_ITEMS_SECTION = "craftable items";
+    private static final String STORE_SECTION = "store";
+    private static final String PLAYER_SECTION = "player";
 
     static {
         baseItemsRead = false;
@@ -50,8 +56,9 @@ public class Reader {
         try {
             scanner = new Scanner(file);
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
-            System.exit(0);
+            // Log the error and exit gracefully
+            System.err.println("File not found: " + filePath);
+            System.exit(1); // Exit with a non-zero status code to indicate an error
         }
 
         ArrayList<ItemDefinition> itemDefinitions = ItemDictionary.get().getDefs();
@@ -62,13 +69,13 @@ public class Reader {
         while (scanner.hasNextLine()) {
             line = scanner.nextLine();
             if (!line.isEmpty() && line.charAt(0) == '-') {
-                if (line.endsWith("base items")) {
+                if (line.endsWith(BASE_ITEMS_SECTION)) {
                     readBaseItemDefinitions(scanner, itemDefinitions);
-                } else if (line.endsWith("craftable items")) {
+                } else if (line.endsWith(CRAFTABLE_ITEMS_SECTION)) {
                     readCraftableItemDefinitions(scanner, itemDefinitions);
-                } else if (line.endsWith("store")) {
+                } else if (line.endsWith(STORE_SECTION)) {
                     store = readStorage(scanner, itemDefinitions);
-                } else if (line.endsWith("player")) {
+                } else if (line.endsWith(PLAYER_SECTION)) {
                     player = readPlayer(scanner, itemDefinitions);
                 }
             }
@@ -77,24 +84,14 @@ public class Reader {
         return new App(player, store);
     }
 
-    private static boolean duplicateItemName(String name, ArrayList<ItemDefinition> defs) {
-        for (ItemDefinition def : defs) {
-            if (def.getName().equalsIgnoreCase(name)) {
-                return true;
-            }
-        }
-        return false;
+   private static boolean duplicateItemName(String name, List<ItemDefinition> defs) {
+        return defs.stream().anyMatch(def -> def.getName().equalsIgnoreCase(name));
     }
 
-    private static Optional<ItemDefinition> getItemDef(String itemName, ArrayList<ItemDefinition> defs) {
-        Optional<ItemDefinition> result = Optional.empty();
-        for (ItemDefinition def : defs) {
-            if (def.getName().equals(itemName)) {
-                result = Optional.of(def);
-                break;
-            }
-        }
-        return result;
+    private static Optional<ItemDefinition> getItemDef(String itemName, List<ItemDefinition> defs) {
+        return defs.stream()
+                .filter(def -> def.getName().equals(itemName))
+                .findFirst();
     }
 
     // line format
