@@ -21,29 +21,54 @@ Structural pattern - _Composite_ pattern.
 
 ## Itemise changes made (which class files were modified)
 
-1. BaseItem Class added, with all the required methods implemented.
-2. Crafting and Uncrafting methods implemented in App class.
-3. A list is defined to store the componenets(craftable items) and sub-componenets(base items)
+1. Crafting and Uncrafting methods implemented in App class.
+2. A list is defined to store the componenets(craftable items) and sub-componenets(base items)
    this is done to achieve the required functionality (crafting, uncrafting). (Item Class)
-4. Add and Get methods added for the List defined in 3. (Item Class)
-5. Getweight and Getcomposition methods modified to work for craftable items and allow for crafting/uncrafting.
-6. Create method in ItemDefinition Class modified to work for craftable items as well.
-7. Get method added that returns the component names that is required for Crafting.
+3. Add and Get methods added for the List defined in 3. (Item Class)
+4. Getweight and Getcomposition methods modified to work for craftable items and allow for crafting/uncrafting.
+5. Create method in ItemDefinition Class modified to work for craftable items as well.
+6. Get method added that returns the component names that is required for Crafting.
 
 # Task 3
 
 ## Itemised changes or new files
 
-1.
+No.1 Strategy Pattern implemented for Item Searching
+
+1. SearchStrategy.java Added
+2. AllSearchStrategy.java Added
+3. NameSearchStrategy.java Added
+4. DescriptionSearchStrategy.java Added
+5. Modifications made in App.java and Inventory.java
+
+No.2
 
 ## What was changed
 
-1.
+No.1
+
+1. In App class, the setupSearching method has been modified to facilitate for the SearchStrategy implemented.
+2. In Inventory class, a SearchStrtagy object is defined that will keep track of the strategy i-e any of the three
+3. SearchItems method is modified to work with searching implementation.
 
 ## Why it was changed
 
-1.
+No.1
+
+1. The change was made to introduce a more maintainable and flexible way to handle item searching in the code.
+   the original code used a hard coded approach which made the code less extensible and harder to maintain.
+2. By introducing the Strategy Pattern, the code separates the search strategies from the Inventory class,
+   making it easier to add new search strategies and change the behavior of searching without directly modifying
+   the Inventory class.
 
 ## The benefits of the change
 
-1.
+No.1
+
+1. This makes it easy to add new strategies or modify existing ones without affecting other parts of the code.
+2. The Strategy Pattern allows for the easy addition of new search strategies. You can create new strategy
+   classes without modifying the existing code, making the system more extensible.
+3. Other benefits can inlcude improved readability, reducing the use of conditional complexity
+   (as in the original SearchItems there were multiple conditional statements utiltized), and better maintainability.
+
+No.2
