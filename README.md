@@ -16,6 +16,8 @@ A robust application for managing inventory, designed to track and organise item
 - Version Control: Utilize Git for project management and collaboration.
 - Project Management: Plan, prioritize tasks, and meet milestones.
 
+These learning outcomes reflect the breadth and depth of skills acquired during the development of the Inventory Management System, providing a solid foundation for future software development endeavors.
+
 
 ## Snapshots
 ![image](https://github.com/H4hmad/Inventory-System/assets/140472428/2ae90a90-6ece-40ec-b656-1afa6091bbce)
